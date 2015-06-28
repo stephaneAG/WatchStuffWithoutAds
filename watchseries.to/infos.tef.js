@@ -324,7 +324,10 @@ theVideo.poster = imageUrl;
 theVideo.width = 640;
 theVideo.height = 480;
 theVideo.controls = true;
+theVideo.style.top = window.outerHeight/2-240+'px';
+theVideo.style.left = window.innerWidth/2-320+'px';
 document.documentElement.appendChild(theVideo); // ---------------->> HACKED ! ^^
+console.log('%c GorillaVid ? \\-------->> HACKED !! ^^ ', 'background: #222; color: #bada55'); // hihi ;)
 
 // NOW: where's the will to contine, & encapsulates all that + the CORS stuff ( aka browser plugin/extension ? )
 
