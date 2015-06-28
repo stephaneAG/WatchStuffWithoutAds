@@ -303,7 +303,30 @@ while (match = myRegexp.exec(GorillaResponse)) {
   console.log(match[1]);
   if( i == 23 ){ window.scriptHasStuff = match[1]; } // the 23th contains interesting stuff ..
 }
+// ok, that's a 2-step for now, but I guess we could easily use this one without the above
+// R: the "[\s\S]*?" acts like "\W*" in perl regexp
+var myRegexp = /.*jwplayer\(\"flvplayer\"\)\.setup\({[\s\S]*?(.*)[\s\S]*?}[\s\S]*?wmode.*/gm;
+var match = myRegexp.exec( scriptHasStuff );
+console.log("match! : "+ match[1]);
+// getting the image and the video url :P
+var myRegexp = /.*(jwplayer\(\"flvplayer\"\)\.setup\({)([\s\S]*?})([\s\S]*?wmode).*/gm;
+var match = myRegexp.exec( scriptHasStuff );
+console.log("match! : \n" + '{\n' + match[2] + '\n}\n}' );
+//jsonHasStuff = JSON.parse('{' + match[2] + '} }');
+jsonHasStuff = '{' + match[2] + '} }'; // R: NOT an actual json :/
+var videoUrl = jsonHasStuff.split(':')[8].replace("'", '').replace(' ', '') + ':' + jsonHasStuff.split(':')[9] + ':' + jsonHasStuff.split(':')[10].split(',')[0].replace("'", '');
+var imageUrl = jsonHasStuff.split(':')[6].replace("'", '') + ':' + jsonHasStuff.split(':')[7].split(',')[0].replace("'", '');                  
 
+// and "just a quickie" for the current finish
+var theVideo = document.createElement('video');
+theVideo.src = videoUrl;
+theVideo.poster = imageUrl;
+theVideo.width = 640;
+theVideo.height = 480;
+theVideo.controls = true;
+document.documentElement.appendChild(theVideo); // ---------------->> HACKED ! ^^
+
+// NOW: where's the will to contine, & encapsulates all that + the CORS stuff ( aka browser plugin/extension ? )
 
 /* ********************************************************** */
 
